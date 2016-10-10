@@ -2,3 +2,6 @@ name: StaffMode
 main: net.tux22193.staffmode.StaffMode
 version: 1.0
 author: Tux22193
+commands:
+  staff:
+    description: Toggles staff mode.
