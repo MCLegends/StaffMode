@@ -50,18 +50,22 @@ public class StaffCommand implements CommandExecutor, Listener {
                 VanishFeather.invisible.put(player.getUniqueId(), player.getName());
                 player.setGameMode(GameMode.CREATIVE);
                 for (Player players : Bukkit.getOnlinePlayers()) {
-                    if(players.hasPermission("staffmode.use")) {
+                    if (players.hasPermission("staffmode.use")) {
                         continue;
                     }
                     players.hidePlayer(player);
                 }
                 player.sendMessage(ChatColor.RED + "StaffMode: " + ChatColor.GREEN + "You have been vanished.");
             }
-                player.getInventory().clear();
+            player.getInventory().clear();
 
-                // Adds items to player's inventories.
-                player.getInventory().setItem(4, createCarpet());
-            }
+            // Adds items to player's inventories.
+            player.getInventory().setItem(4, createCarpet());
+            player.getInventory().setItem(0, createRandomTP());
+            player.getInventory().setItem(1, createFreeze());
+            player.getInventory().setItem(7, createVanish(player));
+            player.getInventory().setItem(8, createRod());
+        }
         return false;
     }
 

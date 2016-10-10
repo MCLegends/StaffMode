@@ -33,7 +33,7 @@ public class RandomTeleport implements Listener {
                 int index = random.nextInt(players.size());
                 Player target = (Player)players.get(index);
                 player.teleport(target);
-                player.sendMessage(ChatColor.GREEN + "You have been teleported to " + target);
+                player.sendMessage(ChatColor.GREEN + "You have been teleported to " + target.getName());
             }
         }
     }

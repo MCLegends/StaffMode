@@ -24,7 +24,7 @@ public class FreezeIce implements Listener {
                         player.sendMessage(ChatColor.RED + "This entity is not freezable.");
                     }
                     Player target = (Player)entity;
-                    player.performCommand("freeze " + target);
+                    player.performCommand("freeze " + target.getName());
                 }
             }
         }
