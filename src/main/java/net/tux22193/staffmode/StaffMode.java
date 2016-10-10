@@ -1,5 +1,6 @@
 package net.tux22193.staffmode;
 
+import net.tux22193.staffmode.commands.StaffCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 
@@ -12,6 +13,6 @@ public class StaffMode extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        this.getCommand("staff").setExecutor(new StaffCommand());
     }
 }

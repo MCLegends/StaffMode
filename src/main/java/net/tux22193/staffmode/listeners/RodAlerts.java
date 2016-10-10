@@ -1,5 +1,6 @@
 package net.tux22193.staffmode.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,9 +9,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-/**
- * Created by Tux2 on 10/9/2016.
- */
 public class RodAlerts implements Listener {
 
     @EventHandler
@@ -18,7 +16,7 @@ public class RodAlerts implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         if (item.getType().equals(Material.BLAZE_ROD)) {
-            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "Toggle Alerts")) {
                 player.performCommand("alerts");
             }
         }
