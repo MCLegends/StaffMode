@@ -1,6 +1,5 @@
 package net.tux22193.staffmode.commands;
 
-import com.avaje.ebean.validation.NotNull;
 import net.tux22193.staffmode.StaffMode;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -9,20 +8,18 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class StaffCommand implements CommandExecutor, Listener {
 
     private StaffMode instance;
     private static HashMap<Player, ItemStack[]> inventory = new HashMap<Player, ItemStack[]>();
-    public static HashMap<UUID, Player> enabled = new HashMap<UUID, Player>();
+    public static HashMap<UUID, String> enabled = new HashMap<UUID, String>();
     private static HashMap<Player, ItemStack[]> armor = new HashMap<Player, ItemStack[]>();
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -44,6 +41,7 @@ public class StaffCommand implements CommandExecutor, Listener {
                 player.getInventory().setArmorContents(armor.get(player));
             } else {
                 // If the player is enabling staff mode.
+                enabled.put(player.getUniqueId(), player.getName());
                 inventory.put(player, player.getInventory().getContents());
                 armor.put(player, player.getInventory().getArmorContents());
                 player.setGameMode(GameMode.CREATIVE);
