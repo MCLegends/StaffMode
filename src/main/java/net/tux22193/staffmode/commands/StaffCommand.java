@@ -1,5 +1,6 @@
 package net.tux22193.staffmode.commands;
 
+import com.avaje.ebean.validation.NotNull;
 import net.tux22193.staffmode.StaffMode;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -14,11 +15,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class StaffCommand implements CommandExecutor, Listener {
 
     private StaffMode instance;
     private static HashMap<Player, ItemStack[]> inventory = new HashMap<Player, ItemStack[]>();
+    public static HashMap<UUID, Player> enabled = new HashMap<UUID, Player>();
     private static HashMap<Player, ItemStack[]> armor = new HashMap<Player, ItemStack[]>();
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -31,8 +35,8 @@ public class StaffCommand implements CommandExecutor, Listener {
                 sender.sendMessage(ChatColor.RED + "You do not have permission to perform this command.");
                 return true;
             }
-            if (instance.getEnabled().contains(player.getName())) {
-                instance.getEnabled().remove(player.getName());
+            if (enabled.containsKey(player.getUniqueId())) {
+                enabled.remove(player.getUniqueId());
                 player.getInventory().clear();
                 player.sendMessage(ChatColor.GREEN + "You have left staff mode.");
                 player.setGameMode(GameMode.SURVIVAL);

@@ -11,11 +11,6 @@ import java.util.List;
 
 public class StaffMode extends JavaPlugin {
 
-    public static List<String> enabled;
-    public static List<String> getEnabled() {
-        return enabled;
-    }
-
     @Override
     public void onEnable() {
         this.getCommand("staff").setExecutor(new StaffCommand());
