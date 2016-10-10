@@ -1,6 +1,8 @@
 package net.tux22193.staffmode.commands;
 
 import net.tux22193.staffmode.StaffMode;
+import net.tux22193.staffmode.listeners.VanishFeather;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -20,6 +22,7 @@ public class StaffCommand implements CommandExecutor, Listener {
     private StaffMode instance;
     private static HashMap<Player, ItemStack[]> inventory = new HashMap<Player, ItemStack[]>();
     public static HashMap<UUID, String> enabled = new HashMap<UUID, String>();
+    private static VanishFeather vanishFeather;
     private static HashMap<Player, ItemStack[]> armor = new HashMap<Player, ItemStack[]>();
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -44,23 +47,32 @@ public class StaffCommand implements CommandExecutor, Listener {
                 enabled.put(player.getUniqueId(), player.getName());
                 inventory.put(player, player.getInventory().getContents());
                 armor.put(player, player.getInventory().getArmorContents());
+                VanishFeather.invisible.put(player.getUniqueId(), player.getName());
                 player.setGameMode(GameMode.CREATIVE);
+                for (Player players : Bukkit.getOnlinePlayers()) {
+                    if(players.hasPermission("staffmode.use")) {
+                        continue;
+                    }
+                    players.hidePlayer(player);
+                }
+                player.sendMessage(ChatColor.RED + "StaffMode: " + ChatColor.GREEN + "You have been vanished.");
+            }
                 player.getInventory().clear();
 
                 // Adds items to player's inventories.
-                player.getInventory().addItem(createVanish());
-                player.getInventory().addItem(createFreeze());
-                player.getInventory().addItem(createRod());
-                player.getInventory().addItem(createRandomTP());
+                player.getInventory().setItem(4, createCarpet());
             }
-        }
         return false;
     }
 
-    public ItemStack createVanish() {
+    public ItemStack createVanish(Player player) {
         ItemStack vanish = new ItemStack(Material.FEATHER, 1);
         ItemMeta feather = vanish.getItemMeta();
-        feather.setDisplayName(ChatColor.GRAY + "Vanish");
+        if(vanishFeather.invisible.containsKey(player.getUniqueId())) {
+            feather.setDisplayName(ChatColor.GREEN + "Vanished");
+        } else {
+            feather.setDisplayName(ChatColor.RED + "Unvanished");
+        }
         vanish.setItemMeta(feather);
         return vanish;
     }
@@ -84,6 +96,13 @@ public class StaffCommand implements CommandExecutor, Listener {
         compass.setDisplayName(ChatColor.GOLD + "Random Teleport");
         teleportation.setItemMeta(compass);
         return teleportation;
+    }
+    public ItemStack createCarpet() {
+        ItemStack carpet = new ItemStack(Material.CARPET, 1);
+        ItemMeta carpetMeta = carpet.getItemMeta();
+        carpetMeta.setDisplayName(ChatColor.RED + "Staff Mode");
+        carpet.setItemMeta(carpetMeta);
+        return carpet;
     }
 }
 
